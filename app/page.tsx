@@ -7,7 +7,6 @@ import { BalanceSummary } from "@/components/balance-summary";
 import { TransactionForm } from "@/components/transaction-form";
 import { TransactionList } from "@/components/transaction-list";
 import { CategoryChart } from "@/components/category-chart";
-import { ModeToggle } from "@/components/mode-toggle";
 import { AiAdvisor } from "@/components/ai-advisor";
 import { Download, FileDown, LogOut } from "lucide-react";
 import { useTransactionStore } from "@/lib/store";
@@ -117,7 +116,6 @@ export default function Home() {
                 <FileDown className="mr-2 h-4 w-4" />
                 CSV Dışa Aktar
               </Button>
-              <ModeToggle />
               <Button
                 variant="outline"
                 size="sm"
