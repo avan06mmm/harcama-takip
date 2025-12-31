@@ -81,8 +81,7 @@ function TransactionItem({ transaction, onDelete }: TransactionItemProps) {
               : "text-red-600 dark:text-red-500"
           )}
         >
-          {isIncome ? "+" : "-"}
-          {formatCurrency(transaction.amount)}
+          {isIncome ? "+" : "-"} {formatCurrency(Math.abs(transaction.amount))}
         </p>
         <Button
           variant="ghost"
