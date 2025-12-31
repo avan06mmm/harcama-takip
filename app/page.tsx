@@ -16,6 +16,7 @@ import { AuthForm } from "@/components/auth-form";
 import { Logo } from "@/components/logo";
 import { DashboardStats } from "@/components/dashboard-stats";
 import { MonthlyTrendChart } from "@/components/monthly-trend-chart";
+import { BudgetPlanner } from "@/components/budget-planner";
 
 export default function Home() {
   const { transactions, fetchTransactions, setTransactions } = useTransactionStore();
@@ -149,6 +150,7 @@ export default function Home() {
 
             <div className="space-y-6">
               <CategoryChart />
+              <BudgetPlanner />
             </div>
           </div>
         </div>

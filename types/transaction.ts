@@ -9,6 +9,14 @@ export interface Transaction {
   note: string;
 }
 
+export interface Budget {
+  id: string;
+  user_id: string;
+  category: string;
+  amount: number;
+  created_at?: string;
+}
+
 export interface CategorySummary {
   category: string;
   amount: number;

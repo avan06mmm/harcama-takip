@@ -1,9 +1,10 @@
 import { create } from "zustand";
-import { Transaction } from "@/types/transaction";
+import { Transaction, Budget } from "@/types/transaction";
 import { createClient } from "@/lib/supabase/client";
 
 interface TransactionStore {
   transactions: Transaction[];
+  budgets: Budget[];
   loading: boolean;
   error: string | null;
   fetchTransactions: () => Promise<void>;
@@ -11,10 +12,15 @@ interface TransactionStore {
   deleteTransaction: (id: string) => Promise<void>;
   updateTransaction: (id: string, transaction: Partial<Transaction>) => Promise<void>;
   setTransactions: (transactions: Transaction[]) => void;
+  // Budget Actions
+  fetchBudgets: () => Promise<void>;
+  addBudget: (budget: Omit<Budget, "id" | "user_id">) => Promise<void>;
+  deleteBudget: (id: string) => Promise<void>;
 }
 
 export const useTransactionStore = create<TransactionStore>()((set, get) => ({
   transactions: [],
+  budgets: [],
   loading: false,
   error: null,
 
@@ -22,7 +28,7 @@ export const useTransactionStore = create<TransactionStore>()((set, get) => ({
     set({ loading: true, error: null });
     try {
       const supabase = createClient();
-      
+
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
         set({ loading: false, transactions: [] });
@@ -49,7 +55,7 @@ export const useTransactionStore = create<TransactionStore>()((set, get) => ({
     try {
       const supabase = createClient();
       const { data: { user } } = await supabase.auth.getUser();
-      
+
       if (!user) {
         throw new Error("Kullanıcı girişi gerekli");
       }
@@ -121,5 +127,64 @@ export const useTransactionStore = create<TransactionStore>()((set, get) => ({
 
   setTransactions: (transactions) => {
     set({ transactions });
+  },
+
+  // Budget Actions Implementation
+  fetchBudgets: async () => {
+    try {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data, error } = await supabase
+        .from("budgets")
+        .select("*")
+        .eq("user_id", user.id);
+
+      if (error) throw error;
+      set({ budgets: data || [] });
+    } catch (error: any) {
+      console.error("Error fetching budgets:", error);
+    }
+  },
+
+  addBudget: async (budget) => {
+    try {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Giriş yapmalısınız");
+
+      const { data, error } = await supabase
+        .from("budgets")
+        .insert([{ ...budget, user_id: user.id }])
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      set((state) => ({
+        budgets: [...state.budgets, data],
+      }));
+    } catch (error: any) {
+      set({ error: error.message });
+    }
+  },
+
+  deleteBudget: async (id) => {
+    try {
+      const supabase = createClient();
+      const { error } = await supabase
+        .from("budgets")
+        .delete()
+        .eq("id", id);
+
+      if (error) throw error;
+
+      set((state) => ({
+        budgets: state.budgets.filter(b => b.id !== id),
+      }));
+    } catch (error: any) {
+      set({ error: error.message });
+    }
   },
 }));
