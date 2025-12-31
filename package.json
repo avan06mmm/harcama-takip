@@ -33,9 +33,11 @@
     "postcss": "^8.5.6",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
+    "react-image-crop": "^11.0.10",
     "recharts": "^3.6.0",
     "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.1.18",
+    "tesseract.js": "^7.0.0",
     "typescript": "^5.9.3",
     "zustand": "^5.0.9"
   },

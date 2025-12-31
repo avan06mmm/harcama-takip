@@ -8,6 +8,7 @@ import { useTransactionStore } from "@/lib/store";
 import { TransactionType } from "@/types/transaction";
 import { Plus, X } from "lucide-react";
 import Lottie from "lottie-react";
+import { ReceiptScanner } from "./receipt-scanner";
 
 const INCOME_CATEGORIES = ["Maaş", "Yatırım", "Freelance", "Hediye", "Diğer"];
 const EXPENSE_CATEGORIES = [
@@ -138,6 +139,14 @@ export function TransactionForm() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Receipt Scanner Integration */}
+        <div className="flex justify-center pb-2">
+          <ReceiptScanner onScanComplete={(scannedAmount: number) => {
+            setAmount(scannedAmount.toFixed(2));
+            setType("expense"); // Receipts are typically expenses
+          }} />
+        </div>
+
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <label className="text-sm font-medium">İşlem Türü</label>
