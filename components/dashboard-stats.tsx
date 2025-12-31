@@ -1,12 +1,29 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { useTransactionStore } from "@/lib/store";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowDown, ArrowUp, ShoppingBag, TrendingUp, Wallet } from "lucide-react";
 
+interface ExchangeRates {
+    USD: number;
+    EUR: number;
+}
+
 export function DashboardStats() {
     const transactions = useTransactionStore((state) => state.transactions);
+    const [rates, setRates] = useState<ExchangeRates | null>(null);
+
+    useEffect(() => {
+        fetch('https://api.frankfurter.app/latest?from=TRY&to=USD,EUR')
+            .then(resp => resp.json())
+            .then(data => {
+                if (data && data.rates) {
+                    setRates(data.rates);
+                }
+            })
+            .catch(err => console.error("Döviz kuru alınamadı:", err));
+    }, []);
 
     const stats = useMemo(() => {
         const now = new Date();
@@ -49,6 +66,10 @@ export function DashboardStats() {
         };
     }, [transactions]);
 
+    const formatCurrency = (amount: number, currency: string) => {
+        return amount.toLocaleString("tr-TR", { style: "currency", currency: currency });
+    };
+
     return (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-8">
             <Card>
@@ -60,7 +81,12 @@ export function DashboardStats() {
                     <div className="text-2xl font-bold text-green-600 dark:text-green-400">
                         {stats.income.toLocaleString("tr-TR", { style: "currency", currency: "TRY" })}
                     </div>
-                    <p className="text-xs text-muted-foreground">Bu ayki toplam geliriniz</p>
+                    {rates && (
+                        <p className="text-xs text-muted-foreground mt-1">
+                            ≈ {formatCurrency(stats.income * rates.USD, 'USD')} / {formatCurrency(stats.income * rates.EUR, 'EUR')}
+                        </p>
+                    )}
+                    {!rates && <p className="text-xs text-muted-foreground mt-1">Döviz yükleniyor...</p>}
                 </CardContent>
             </Card>
 
@@ -73,7 +99,12 @@ export function DashboardStats() {
                     <div className="text-2xl font-bold text-red-600 dark:text-red-400">
                         {stats.expense.toLocaleString("tr-TR", { style: "currency", currency: "TRY" })}
                     </div>
-                    <p className="text-xs text-muted-foreground">Bu ayki toplam harcamanız</p>
+                    {rates && (
+                        <p className="text-xs text-muted-foreground mt-1">
+                            ≈ {formatCurrency(stats.expense * rates.USD, 'USD')} / {formatCurrency(stats.expense * rates.EUR, 'EUR')}
+                        </p>
+                    )}
+                    {!rates && <p className="text-xs text-muted-foreground mt-1">Döviz yükleniyor...</p>}
                 </CardContent>
             </Card>
 
