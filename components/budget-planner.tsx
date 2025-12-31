@@ -125,14 +125,14 @@ export function BudgetPlanner() {
                     </form>
                 )}
 
-                <div className="space-y-4 max-h-[320px] overflow-y-auto pr-2 custom-scrollbar">
+                <div className="space-y-2 max-h-[320px] overflow-y-auto pr-2 custom-scrollbar">
                     {budgetAnalysis.length === 0 ? (
                         <p className="text-sm text-muted-foreground text-center py-8">
                             Henüz bütçe hedefi belirlemediniz.
                         </p>
                     ) : (
                         budgetAnalysis.map((item) => (
-                            <div key={item.id} className="space-y-1.5 group">
+                            <div key={item.id} className="p-2.5 rounded-lg border border-transparent hover:border-border hover:bg-muted/40 transition-all duration-300 group space-y-2">
                                 <div className="flex items-center justify-between text-sm">
                                     <div className="font-medium flex items-center gap-2">
                                         {item.category}
@@ -140,31 +140,33 @@ export function BudgetPlanner() {
                                             <AlertCircle className="h-3.5 w-3.5 text-red-500" />
                                         )}
                                     </div>
-                                    <div className="text-muted-foreground text-xs">
+                                    <div className="text-muted-foreground text-xs font-mono">
                                         <span className={item.isExceeded ? "text-red-600 font-bold" : ""}>
                                             {item.spent.toLocaleString("tr-TR", { style: "currency", currency: "TRY", maximumFractionDigits: 0 })}
                                         </span>
-                                        {" / "}
+                                        <span className="opacity-50 mx-1">/</span>
                                         {item.amount.toLocaleString("tr-TR", { style: "currency", currency: "TRY", maximumFractionDigits: 0 })}
                                     </div>
                                 </div>
-                                <div className="relative pt-1">
-                                    <div className="h-2 w-full bg-secondary rounded-full overflow-hidden">
+                                <div className="relative">
+                                    <div className="h-1.5 w-full bg-secondary/50 rounded-full overflow-hidden">
                                         <div
-                                            className={`h-full transition-all duration-500 ${item.percentage >= 100 ? 'bg-red-500' :
-                                                item.percentage >= 80 ? 'bg-yellow-500' : 'bg-green-500'
+                                            className={`h-full transition-all duration-500 shadow-sm ${item.percentage >= 100 ? 'bg-red-500' :
+                                                item.percentage >= 80 ? 'bg-yellow-500' : 'bg-gradient-to-r from-emerald-500 to-green-500'
                                                 }`}
                                             style={{ width: `${item.percentage}%` }}
                                         ></div>
                                     </div>
-
                                 </div>
-                                <div className="flex justify-end h-4">
+                                <div className="flex justify-between items-center h-0 overflow-hidden group-hover:h-5 transition-all duration-300 opacity-0 group-hover:opacity-100">
+                                    <span className="text-[10px] text-muted-foreground">
+                                        %{Math.round(item.percentage)} doluluk
+                                    </span>
                                     <button
                                         onClick={() => deleteBudget(item.id)}
-                                        className="text-[10px] text-red-500 hover:text-red-700 opacity-0 group-hover:opacity-100 transition-opacity"
+                                        className="text-[10px] text-red-500 hover:text-red-700 font-medium px-2 py-0.5 rounded hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
                                     >
-                                        Sil
+                                        Hedefi Sil
                                     </button>
                                 </div>
                             </div>
