@@ -50,7 +50,7 @@ export function MonthlyTrendChart() {
                 <p className="text-sm text-muted-foreground">Bu ayın gün bazlı harcama değişimi</p>
             </CardHeader>
             <CardContent>
-                <div className="h-[300px] w-full">
+                <div className="h-[250px] w-full">
                     {hasData ? (
                         <ResponsiveContainer width="100%" height="100%">
                             <AreaChart

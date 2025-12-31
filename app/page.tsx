@@ -138,15 +138,21 @@ export default function Home() {
 
           <div className="grid gap-8 lg:grid-cols-3">
             <div className="lg:col-span-2 space-y-6">
-              <MonthlyTrendChart />
-              <RecurringExpenses />
+              <AiAdvisor transactions={transactions} />
+
               <div>
-                <AiAdvisor transactions={transactions} />
-                <h2 className="mb-4 mt-8 text-xl font-semibold">İşlemler</h2>
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-xl font-semibold">İşlemler</h2>
+                </div>
                 <div className="space-y-4">
                   <TransactionForm />
                   <TransactionList />
                 </div>
+              </div>
+
+              <div className="grid gap-6 md:grid-cols-2">
+                <MonthlyTrendChart />
+                <RecurringExpenses />
               </div>
             </div>
 
