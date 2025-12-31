@@ -1,4 +1,5 @@
 export type TransactionType = "income" | "expense";
+export type RecurringFrequency = "monthly" | "weekly" | "yearly";
 
 export interface Transaction {
   id: string;
@@ -14,6 +15,19 @@ export interface Budget {
   user_id: string;
   category: string;
   amount: number;
+  created_at?: string;
+}
+
+export interface RecurringTransaction {
+  id: string;
+  user_id: string;
+  amount: number;
+  category: string;
+  description?: string;
+  frequency: RecurringFrequency;
+  last_processed_date?: string;
+  next_run_date: string;
+  is_active: boolean;
   created_at?: string;
 }
 

@@ -16,6 +16,7 @@ import { AuthForm } from "@/components/auth-form";
 import { Logo } from "@/components/logo";
 import { DashboardStats } from "@/components/dashboard-stats";
 import { MonthlyTrendChart } from "@/components/monthly-trend-chart";
+import { RecurringExpenses } from "@/components/recurring-expenses";
 import { BudgetPlanner } from "@/components/budget-planner";
 
 export default function Home() {
@@ -138,6 +139,7 @@ export default function Home() {
           <div className="grid gap-8 lg:grid-cols-3">
             <div className="lg:col-span-2 space-y-6">
               <MonthlyTrendChart />
+              <RecurringExpenses />
               <div>
                 <AiAdvisor transactions={transactions} />
                 <h2 className="mb-4 mt-8 text-xl font-semibold">İşlemler</h2>
