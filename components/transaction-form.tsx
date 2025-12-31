@@ -21,6 +21,18 @@ const EXPENSE_CATEGORIES = [
   "Diğer",
 ];
 
+// Basit anahtar kelime haritası
+const CATEGORY_KEYWORDS: Record<string, string[]> = {
+  "Gıda": ["market", "bakkal", "bim", "a101", "şok", "migros", "yemek", "restoran", "cafe", "kahve", "simit", "döner"],
+  "Ulaşım": ["benzin", "mazot", "otobüs", "metro", "taksi", "uber", "bi taksi", "martı", "dolmuş", "bilet"],
+  "Konut": ["kira", "aidat", "tamirat", "tadilat", "boya", "musluk"],
+  "Eğlence": ["sinema", "tiyatro", "oyun", "netflix", "spotify", "konser", "biletix"],
+  "Sağlık": ["eczane", "ilaç", "doktor", "hastane", "muayene", "gözlük"],
+  "Faturalar": ["elektrik", "su", "doğalgaz", "internet", "telefon", "fatura", "turkcell", "vodafone", "türk telekom"],
+  "Eğitim": ["kitap", "kırtasiye", "kurs", "udemy", "okul", "harç"],
+  "Alışveriş": ["giyim", "kıyafet", "ayakkabı", "trendyol", "hepsiburada", "amazon", "zara", "lcw"],
+};
+
 export function TransactionForm() {
   const [isOpen, setIsOpen] = useState(false);
   const [type, setType] = useState<TransactionType>("expense");
@@ -30,6 +42,23 @@ export function TransactionForm() {
     new Date().toISOString().split("T")[0]
   );
   const [note, setNote] = useState("");
+
+  const handleNoteChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setNote(value);
+
+    // Eğer işlem türü Gider ise ve henüz kategori seçilmemişse veya otomatik seçilmişse
+    if (type === 'expense') {
+      const lowerNote = value.toLowerCase();
+
+      for (const [cat, keywords] of Object.entries(CATEGORY_KEYWORDS)) {
+        if (keywords.some(keyword => lowerNote.includes(keyword))) {
+          setCategory(cat);
+          break; // İlk eşleşen kategoriyi seç ve çık
+        }
+      }
+    }
+  };
 
   const addTransaction = useTransactionStore((state) => state.addTransaction);
 
@@ -136,10 +165,15 @@ export function TransactionForm() {
         <div className="space-y-2">
           <label className="text-sm font-medium">Not (Opsiyonel)</label>
           <Input
-            placeholder="Açıklama..."
+            placeholder="Açıklama (Örn: Migros alışverişi)"
             value={note}
-            onChange={(e) => setNote(e.target.value)}
+            onChange={handleNoteChange}
           />
+          {note && category && (
+            <p className="text-xs text-muted-foreground mt-1">
+              Otomatik seçilen kategori: <span className="font-medium text-primary">{category}</span>
+            </p>
+          )}
         </div>
 
         <div className="flex gap-2">

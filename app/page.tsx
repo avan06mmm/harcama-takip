@@ -14,6 +14,8 @@ import { useTransactionStore } from "@/lib/store";
 import { Button } from "@/components/ui/button";
 import { AuthForm } from "@/components/auth-form";
 import { Logo } from "@/components/logo";
+import { DashboardStats } from "@/components/dashboard-stats";
+import { MonthlyTrendChart } from "@/components/monthly-trend-chart";
 
 export default function Home() {
   const { transactions, fetchTransactions, setTransactions } = useTransactionStore();
@@ -130,9 +132,11 @@ export default function Home() {
       <main className="container mx-auto px-4 py-8">
         <div className="space-y-8">
           <BalanceSummary />
+          <DashboardStats />
 
           <div className="grid gap-8 lg:grid-cols-3">
             <div className="lg:col-span-2 space-y-6">
+              <MonthlyTrendChart />
               <div>
                 <AiAdvisor transactions={transactions} />
                 <h2 className="mb-4 mt-8 text-xl font-semibold">İşlemler</h2>
