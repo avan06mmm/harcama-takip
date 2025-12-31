@@ -125,49 +125,44 @@ export function BudgetPlanner() {
                     </form>
                 )}
 
-                <div className="space-y-5">
+                <div className="space-y-4 max-h-[320px] overflow-y-auto pr-2 custom-scrollbar">
                     {budgetAnalysis.length === 0 ? (
                         <p className="text-sm text-muted-foreground text-center py-8">
                             Henüz bütçe hedefi belirlemediniz.
                         </p>
                     ) : (
                         budgetAnalysis.map((item) => (
-                            <div key={item.id} className="space-y-2">
+                            <div key={item.id} className="space-y-1.5 group">
                                 <div className="flex items-center justify-between text-sm">
                                     <div className="font-medium flex items-center gap-2">
                                         {item.category}
                                         {item.isExceeded && (
-                                            <AlertCircle className="h-4 w-4 text-red-500" />
+                                            <AlertCircle className="h-3.5 w-3.5 text-red-500" />
                                         )}
                                     </div>
-                                    <div className="text-muted-foreground">
+                                    <div className="text-muted-foreground text-xs">
                                         <span className={item.isExceeded ? "text-red-600 font-bold" : ""}>
-                                            {item.spent.toLocaleString("tr-TR", { style: "currency", currency: "TRY" })}
+                                            {item.spent.toLocaleString("tr-TR", { style: "currency", currency: "TRY", maximumFractionDigits: 0 })}
                                         </span>
                                         {" / "}
-                                        {item.amount.toLocaleString("tr-TR", { style: "currency", currency: "TRY" })}
+                                        {item.amount.toLocaleString("tr-TR", { style: "currency", currency: "TRY", maximumFractionDigits: 0 })}
                                     </div>
                                 </div>
                                 <div className="relative pt-1">
-                                    <Progress
-                                        value={item.percentage}
-                                        className="h-2"
-                                    // Progress styles are currently limited in Shadcn default, 
-                                    // so we rely on parent color classes or custom CSS if deeper customization needed.
-                                    // But logic-wise:
-                                    />
-                                    {/* Custom color logic bar override if needed or just use default */}
-                                    <div
-                                        className={`absolute top-1 left-0 h-2 rounded-full transition-all duration-500 ${item.percentage >= 100 ? 'bg-red-500' :
+                                    <div className="h-2 w-full bg-secondary rounded-full overflow-hidden">
+                                        <div
+                                            className={`h-full transition-all duration-500 ${item.percentage >= 100 ? 'bg-red-500' :
                                                 item.percentage >= 80 ? 'bg-yellow-500' : 'bg-green-500'
-                                            }`}
-                                        style={{ width: `${item.percentage}%` }}
-                                    ></div>
+                                                }`}
+                                            style={{ width: `${item.percentage}%` }}
+                                        ></div>
+                                    </div>
+
                                 </div>
-                                <div className="flex justify-end">
+                                <div className="flex justify-end h-4">
                                     <button
                                         onClick={() => deleteBudget(item.id)}
-                                        className="text-xs text-red-500 hover:text-red-700 opacity-0 group-hover:opacity-100 transition-opacity"
+                                        className="text-[10px] text-red-500 hover:text-red-700 opacity-0 group-hover:opacity-100 transition-opacity"
                                     >
                                         Sil
                                     </button>
