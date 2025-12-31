@@ -10,6 +10,7 @@ import { Plus, X } from "lucide-react";
 
 const INCOME_CATEGORIES = ["Maaş", "Yatırım", "Freelance", "Hediye", "Diğer"];
 const EXPENSE_CATEGORIES = [
+  "Market",
   "Gıda",
   "Ulaşım",
   "Konut",
@@ -23,15 +24,17 @@ const EXPENSE_CATEGORIES = [
 
 // Basit anahtar kelime haritası
 const CATEGORY_KEYWORDS: Record<string, string[]> = {
-  "Gıda": ["market", "bakkal", "bim", "a101", "şok", "migros", "yemek", "restoran", "cafe", "kahve", "simit", "döner"],
-  "Ulaşım": ["benzin", "mazot", "otobüs", "metro", "taksi", "uber", "bi taksi", "martı", "dolmuş", "bilet"],
-  "Konut": ["kira", "aidat", "tamirat", "tadilat", "boya", "musluk"],
-  "Eğlence": ["sinema", "tiyatro", "oyun", "netflix", "spotify", "konser", "biletix"],
-  "Sağlık": ["eczane", "ilaç", "doktor", "hastane", "muayene", "gözlük"],
+  "Market": ["market", "bakkal", "bim", "a101", "şok", "migros", "carrefour", "file", "hakmar", "ekmek", "süt", "yumurta"],
+  "Gıda": ["yemek", "restoran", "cafe", "kahve", "simit", "döner", "burger", "pizza", "lahmacun", "kebap"],
+  "Ulaşım": ["benzin", "mazot", "otobüs", "metro", "taksi", "uber", "bi taksi", "martı", "dolmuş", "bilet", "akbil"],
+  "Konut": ["kira", "aidat", "tamirat", "tadilat", "boya", "musluk", "kombi"],
+  "Eğlence": ["sinema", "tiyatro", "oyun", "netflix", "spotify", "youtube", "konser", "biletix", "maç"],
+  "Sağlık": ["eczane", "ilaç", "doktor", "hastane", "muayene", "gözlük", "diş", "tahlil"],
   "Faturalar": ["elektrik", "su", "doğalgaz", "internet", "telefon", "fatura", "turkcell", "vodafone", "türk telekom"],
-  "Eğitim": ["kitap", "kırtasiye", "kurs", "udemy", "okul", "harç"],
-  "Alışveriş": ["giyim", "kıyafet", "ayakkabı", "trendyol", "hepsiburada", "amazon", "zara", "lcw"],
+  "Eğitim": ["kitap", "kırtasiye", "kurs", "udemy", "okul", "harç", "dershane"],
+  "Alışveriş": ["giyim", "kıyafet", "ayakkabı", "trendyol", "hepsiburada", "amazon", "zara", "lcw", "teknosa", "mediamarkt"],
 };
+
 
 export function TransactionForm() {
   const [isOpen, setIsOpen] = useState(false);
