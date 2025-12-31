@@ -45,19 +45,7 @@ export function AuthForm() {
     }
   };
 
-  const handleSignInWithGoogle = async () => {
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: "google",
-        options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
-        },
-      });
-      if (error) throw error;
-    } catch (error: any) {
-      setError(error.message);
-    }
-  };
+
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -100,25 +88,7 @@ export function AuthForm() {
               {loading ? "Yükleniyor..." : isSignUp ? "Kayıt Ol" : "Giriş Yap"}
             </Button>
 
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t" />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-background px-2 text-muted-foreground">
-                  Veya
-                </span>
-              </div>
-            </div>
 
-            <Button
-              type="button"
-              variant="outline"
-              className="w-full"
-              onClick={handleSignInWithGoogle}
-            >
-              Google ile Giriş Yap
-            </Button>
 
             <p className="text-center text-sm text-muted-foreground">
               {isSignUp ? "Zaten hesabın var mı?" : "Hesabın yok mu?"}{" "}
