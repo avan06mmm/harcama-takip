@@ -88,6 +88,40 @@ export default function Home() {
     document.body.removeChild(link);
   };
 
+  const exportToPDF = () => {
+    if (transactions.length === 0) return;
+
+    import("jspdf").then(({ default: jsPDF }) => {
+      import("jspdf-autotable").then(({ default: autoTable }) => {
+        const doc = new jsPDF();
+
+        // Başlık
+        doc.setFontSize(18);
+        doc.text("Harcama Takip - Aylik Rapor", 14, 22);
+
+        doc.setFontSize(11);
+        doc.text(`Tarih: ${new Date().toLocaleDateString("tr-TR")}`, 14, 30);
+
+        const tableColumn = ["Tur", "Tutar", "Kategori", "Tarih", "Not"];
+        const tableRows = transactions.map(t => [
+          t.type === "income" ? "Gelir" : "Gider",
+          `${t.amount} TL`,
+          t.category,
+          new Date(t.date).toLocaleDateString("tr-TR"),
+          t.note
+        ]);
+
+        autoTable(doc, {
+          head: [tableColumn],
+          body: tableRows,
+          startY: 40,
+        });
+
+        doc.save(`harcama-raporu-${new Date().toISOString().split("T")[0]}.pdf`);
+      });
+    });
+  };
+
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -115,6 +149,15 @@ export default function Home() {
               >
                 <FileDown className="mr-2 h-4 w-4" />
                 CSV Dışa Aktar
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={exportToPDF}
+                disabled={transactions.length === 0}
+              >
+                <Download className="mr-2 h-4 w-4" />
+                Rapor (PDF)
               </Button>
               <Button
                 variant="outline"
