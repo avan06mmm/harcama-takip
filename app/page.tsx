@@ -154,7 +154,7 @@ export default function Home() {
 
       <footer className="mt-auto border-t border-border py-6">
         <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          <p>© 2025 Harcama Takip - Açık Kaynak Proje</p>
+          <p>© 2026 Harcama Takip V.2.0 - Mustafa Avan</p>
         </div>
       </footer>
     </div>
