@@ -8,6 +8,7 @@ import { TransactionForm } from "@/components/transaction-form";
 import { TransactionList } from "@/components/transaction-list";
 import { CategoryChart } from "@/components/category-chart";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { AiAdvisor } from "@/components/ai-advisor";
 import { Download, FileDown, LogOut } from "lucide-react";
 import { useTransactionStore } from "@/lib/store";
 import { Button } from "@/components/ui/button";
@@ -137,7 +138,8 @@ export default function Home() {
           <div className="grid gap-8 lg:grid-cols-3">
             <div className="lg:col-span-2 space-y-6">
               <div>
-                <h2 className="mb-4 text-xl font-semibold">İşlemler</h2>
+                <AiAdvisor transactions={transactions} />
+                <h2 className="mb-4 mt-8 text-xl font-semibold">İşlemler</h2>
                 <div className="space-y-4">
                   <TransactionForm />
                   <TransactionList />
