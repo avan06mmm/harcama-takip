@@ -12,9 +12,11 @@ interface ExchangeRates {
 
 export function DashboardStats() {
     const transactions = useTransactionStore((state) => state.transactions);
+    const [mounted, setMounted] = useState(false);
     const [rates, setRates] = useState<ExchangeRates | null>(null);
 
     useEffect(() => {
+        setMounted(true);
         fetch('https://api.frankfurter.app/latest?from=TRY&to=USD,EUR')
             .then(resp => resp.json())
             .then(data => {
@@ -26,6 +28,8 @@ export function DashboardStats() {
     }, []);
 
     const stats = useMemo(() => {
+        if (!mounted) return { income: 0, expense: 0, topCategory: null, dailyAverage: 0 }; // Server side safe return
+
         const now = new Date();
         const currentMonth = now.getMonth();
         const currentYear = now.getFullYear();
@@ -64,11 +68,15 @@ export function DashboardStats() {
             topCategory: topCategory ? { name: topCategory[0], amount: topCategory[1] } : null,
             dailyAverage
         };
-    }, [transactions]);
+    }, [transactions, mounted]);
 
     const formatCurrency = (amount: number, currency: string) => {
         return amount.toLocaleString("tr-TR", { style: "currency", currency: currency });
     };
+
+    if (!mounted) {
+        return null;
+    }
 
     return (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-8">
