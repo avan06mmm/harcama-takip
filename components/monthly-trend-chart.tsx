@@ -88,7 +88,7 @@ export function MonthlyTrendChart() {
                                         borderColor: "var(--border)",
                                         borderRadius: "8px"
                                     }}
-                                    formatter={(value: number) => [
+                                    formatter={(value: any) => [
                                         value.toLocaleString("tr-TR", { style: "currency", currency: "TRY" }),
                                         "Harcama"
                                     ]}
