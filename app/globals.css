@@ -50,6 +50,8 @@
   --color-border: #27272a;
   --color-input: #27272a;
   --color-ring: #8b5cf6;
+
+  color-scheme: dark;
 }
 
 * {
