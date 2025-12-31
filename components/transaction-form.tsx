@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { useTransactionStore } from "@/lib/store";
 import { TransactionType } from "@/types/transaction";
 import { Plus, X } from "lucide-react";
+import Lottie from "lottie-react";
 
 const INCOME_CATEGORIES = ["Maaş", "Yatırım", "Freelance", "Hediye", "Diğer"];
 const EXPENSE_CATEGORIES = [
@@ -38,6 +39,9 @@ const CATEGORY_KEYWORDS: Record<string, string[]> = {
 
 export function TransactionForm() {
   const [isOpen, setIsOpen] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [successAnimation, setSuccessAnimation] = useState(null);
+
   const [type, setType] = useState<TransactionType>("expense");
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
@@ -45,6 +49,13 @@ export function TransactionForm() {
     new Date().toISOString().split("T")[0]
   );
   const [note, setNote] = useState("");
+
+  useEffect(() => {
+    fetch('https://assets2.lottiefiles.com/packages/lf20_7W0ppE.json')
+      .then(res => res.json())
+      .then(data => setSuccessAnimation(data))
+      .catch(err => console.error("Lottie fetch error:", err));
+  }, []);
 
   const handleNoteChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -82,7 +93,27 @@ export function TransactionForm() {
     setCategory("");
     setNote("");
     setIsOpen(false);
+    setShowSuccess(true);
+
+    setTimeout(() => {
+      setShowSuccess(false);
+    }, 2500);
   };
+
+  if (showSuccess && successAnimation) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+        <div className="w-64 h-64 bg-white rounded-full p-8 shadow-2xl flex items-center justify-center animate-in fade-in zoom-in duration-300">
+          <Lottie
+            animationData={successAnimation}
+            loop={false}
+            autoplay={true}
+            style={{ width: '100%', height: '100%' }}
+          />
+        </div>
+      </div>
+    );
+  }
 
   if (!isOpen) {
     return (

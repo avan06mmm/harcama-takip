@@ -3,6 +3,7 @@
 import { useMemo, useEffect, useState } from "react";
 import { useTransactionStore } from "@/lib/store";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowDown, ArrowUp, ShoppingBag, TrendingUp, Wallet } from "lucide-react";
 
 interface ExchangeRates {
@@ -75,7 +76,22 @@ export function DashboardStats() {
     };
 
     if (!mounted) {
-        return null;
+        return (
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-8">
+                {[...Array(4)].map((_, i) => (
+                    <Card key={i}>
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <Skeleton className="h-4 w-[100px]" />
+                            <Skeleton className="h-4 w-4" />
+                        </CardHeader>
+                        <CardContent>
+                            <Skeleton className="h-8 w-[120px] mb-1" />
+                            <Skeleton className="h-3 w-[140px]" />
+                        </CardContent>
+                    </Card>
+                ))}
+            </div>
+        );
     }
 
     return (
@@ -89,12 +105,13 @@ export function DashboardStats() {
                     <div className="text-2xl font-bold text-green-600 dark:text-green-400">
                         {stats.income.toLocaleString("tr-TR", { style: "currency", currency: "TRY" })}
                     </div>
-                    {rates && (
+                    {rates ? (
                         <p className="text-xs text-muted-foreground mt-1">
                             ≈ {formatCurrency(stats.income * rates.USD, 'USD')} / {formatCurrency(stats.income * rates.EUR, 'EUR')}
                         </p>
+                    ) : (
+                        <Skeleton className="h-3 w-32 mt-1" />
                     )}
-                    {!rates && <p className="text-xs text-muted-foreground mt-1">Döviz yükleniyor...</p>}
                 </CardContent>
             </Card>
 
@@ -107,12 +124,13 @@ export function DashboardStats() {
                     <div className="text-2xl font-bold text-red-600 dark:text-red-400">
                         {stats.expense.toLocaleString("tr-TR", { style: "currency", currency: "TRY" })}
                     </div>
-                    {rates && (
+                    {rates ? (
                         <p className="text-xs text-muted-foreground mt-1">
                             ≈ {formatCurrency(stats.expense * rates.USD, 'USD')} / {formatCurrency(stats.expense * rates.EUR, 'EUR')}
                         </p>
+                    ) : (
+                        <Skeleton className="h-3 w-32 mt-1" />
                     )}
-                    {!rates && <p className="text-xs text-muted-foreground mt-1">Döviz yükleniyor...</p>}
                 </CardContent>
             </Card>
 
