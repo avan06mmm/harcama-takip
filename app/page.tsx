@@ -135,47 +135,63 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-10 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <div className="min-h-screen bg-background text-foreground selection:bg-primary/20">
+      {/* Visual background accents */}
+      <div className="fixed top-0 left-0 w-full h-[500px] bg-gradient-to-b from-primary/5 to-transparent -z-10 pointer-events-none" />
+
+      <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <Logo />
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={exportToCSV}
-                disabled={transactions.length === 0}
-              >
-                <FileDown className="mr-2 h-4 w-4" />
-                CSV Dışa Aktar
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={exportToPDF}
-                disabled={transactions.length === 0}
-              >
-                <Download className="mr-2 h-4 w-4" />
-                Rapor (PDF)
-              </Button>
+            <div className="flex items-center gap-4">
+              <Logo />
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="hidden sm:flex items-center gap-2 mr-2">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={exportToCSV}
+                  disabled={transactions.length === 0}
+                  className="rounded-xl hover:bg-primary/10 hover:text-primary transition-all"
+                >
+                  <FileDown className="mr-2 h-4 w-4" />
+                  CSV
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={exportToPDF}
+                  disabled={transactions.length === 0}
+                  className="rounded-xl hover:bg-primary/10 hover:text-primary transition-all"
+                >
+                  <Download className="mr-2 h-4 w-4" />
+                  PDF
+                </Button>
+              </div>
+              <div className="h-6 w-px bg-border/50 mx-1 hidden sm:block" />
               <Button
                 variant="outline"
                 size="sm"
                 onClick={handleLogout}
+                className="rounded-xl border-border/50 hover:bg-destructive/10 hover:text-destructive hover:border-destructive/20 transition-all"
               >
                 <LogOut className="mr-2 h-4 w-4" />
-                Çıkış
+                <span className="hidden xs:inline">Çıkış</span>
               </Button>
             </div>
           </div>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8">
-        <div className="space-y-8">
-          <BalanceSummary />
-          <DashboardStats />
+      <main className="container mx-auto px-4 py-10">
+        <div className="max-w-7xl mx-auto space-y-12">
+          <section className="animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <BalanceSummary />
+          </section>
+
+          <section className="animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100">
+            <DashboardStats />
+          </section>
 
           <div className="grid gap-8 lg:grid-cols-3">
             <div className="lg:col-span-2 space-y-6">

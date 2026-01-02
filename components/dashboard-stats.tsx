@@ -95,55 +95,63 @@ export function DashboardStats() {
     }
 
     return (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-8">
-            <Card>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-10">
+            <Card className="glass-card overflow-hidden group hover:shadow-xl transition-all duration-300">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Bu Ay Toplam Gelir</CardTitle>
-                    <Wallet className="h-4 w-4 text-green-500" />
+                    <CardTitle className="text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors">Bu Ay Toplam Gelir</CardTitle>
+                    <div className="p-2 rounded-full bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400">
+                        <Wallet className="h-5 w-5" />
+                    </div>
                 </CardHeader>
-                <CardContent>
-                    <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+                <CardContent className="pt-2">
+                    <div className="text-3xl font-bold text-green-600 dark:text-green-400 tracking-tight">
                         {stats.income.toLocaleString("tr-TR", { style: "currency", currency: "TRY" })}
                     </div>
                     {rates ? (
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="text-[11px] font-medium text-muted-foreground mt-2 flex items-center gap-1.5 opacity-80 group-hover:opacity-100 transition-opacity">
+                            <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500"></span>
                             ≈ {formatCurrency(stats.income * rates.USD, 'USD')} / {formatCurrency(stats.income * rates.EUR, 'EUR')}
                         </p>
                     ) : (
-                        <Skeleton className="h-3 w-32 mt-1" />
+                        <Skeleton className="h-3 w-32 mt-2" />
                     )}
                 </CardContent>
             </Card>
 
-            <Card>
+            <Card className="glass-card overflow-hidden group hover:shadow-xl transition-all duration-300">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Bu Ay Toplam Gider</CardTitle>
-                    <TrendingUp className="h-4 w-4 text-red-500" />
+                    <CardTitle className="text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors">Bu Ay Toplam Gider</CardTitle>
+                    <div className="p-2 rounded-full bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400">
+                        <TrendingUp className="h-5 w-5" />
+                    </div>
                 </CardHeader>
-                <CardContent>
-                    <div className="text-2xl font-bold text-red-600 dark:text-red-400">
+                <CardContent className="pt-2">
+                    <div className="text-3xl font-bold text-red-600 dark:text-red-400 tracking-tight">
                         {stats.expense.toLocaleString("tr-TR", { style: "currency", currency: "TRY" })}
                     </div>
                     {rates ? (
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="text-[11px] font-medium text-muted-foreground mt-2 flex items-center gap-1.5 opacity-80 group-hover:opacity-100 transition-opacity">
+                            <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500"></span>
                             ≈ {formatCurrency(stats.expense * rates.USD, 'USD')} / {formatCurrency(stats.expense * rates.EUR, 'EUR')}
                         </p>
                     ) : (
-                        <Skeleton className="h-3 w-32 mt-1" />
+                        <Skeleton className="h-3 w-32 mt-2" />
                     )}
                 </CardContent>
             </Card>
 
-            <Card>
+            <Card className="glass-card overflow-hidden group hover:shadow-xl transition-all duration-300">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">En Çok Harcanan</CardTitle>
-                    <ShoppingBag className="h-4 w-4 text-blue-500" />
+                    <CardTitle className="text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors">En Çok Harcanan</CardTitle>
+                    <div className="p-2 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
+                        <ShoppingBag className="h-5 w-5" />
+                    </div>
                 </CardHeader>
-                <CardContent>
-                    <div className="text-2xl font-bold">
+                <CardContent className="pt-2">
+                    <div className="text-2xl font-bold truncate group-hover:text-blue-500 transition-colors">
                         {stats.topCategory ? stats.topCategory.name : "-"}
                     </div>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-xs text-muted-foreground mt-2">
                         {stats.topCategory
                             ? `${stats.topCategory.amount.toLocaleString("tr-TR", { style: "currency", currency: "TRY" })} harcama`
                             : "Veri yok"}
@@ -151,18 +159,21 @@ export function DashboardStats() {
                 </CardContent>
             </Card>
 
-            <Card>
+            <Card className="glass-card overflow-hidden group hover:shadow-xl transition-all duration-300">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Günlük Ort. Harcama</CardTitle>
-                    <ArrowDown className="h-4 w-4 text-orange-500" />
+                    <CardTitle className="text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors">Günlük Ort. Harcama</CardTitle>
+                    <div className="p-2 rounded-full bg-orange-50 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400">
+                        <ArrowDown className="h-5 w-5" />
+                    </div>
                 </CardHeader>
-                <CardContent>
-                    <div className="text-2xl font-bold">
+                <CardContent className="pt-2">
+                    <div className="text-3xl font-bold tracking-tight">
                         {stats.dailyAverage.toLocaleString("tr-TR", { style: "currency", currency: "TRY" })}
                     </div>
-                    <p className="text-xs text-muted-foreground">Bu ay için ortalama</p>
+                    <p className="text-xs text-muted-foreground mt-2">Bu ay için ortalama</p>
                 </CardContent>
             </Card>
         </div>
     );
+
 }
