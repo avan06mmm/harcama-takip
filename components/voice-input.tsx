@@ -14,37 +14,41 @@ export function VoiceInput({ onTranscript }: VoiceInputProps) {
     const [recognition, setRecognition] = useState<any>(null); // Using any for SpeechRecognition
 
     useEffect(() => {
-        if (typeof window !== "undefined" && (window as any).webkitSpeechRecognition) {
-            const speechRecognition = new (window as any).webkitSpeechRecognition();
-            speechRecognition.continuous = false;
-            speechRecognition.interimResults = false;
-            speechRecognition.lang = "tr-TR";
+        if (typeof window !== "undefined") {
+            const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
 
-            speechRecognition.onstart = () => {
-                setIsListening(true);
-            };
+            if (SpeechRecognition) {
+                const speechRecognition = new SpeechRecognition();
+                speechRecognition.continuous = false;
+                speechRecognition.interimResults = false;
+                speechRecognition.lang = "tr-TR";
 
-            speechRecognition.onend = () => {
-                setIsListening(false);
-            };
+                speechRecognition.onstart = () => {
+                    setIsListening(true);
+                };
 
-            speechRecognition.onresult = (event: any) => {
-                const transcript = event.results[0][0].transcript;
-                onTranscript(transcript);
-            };
+                speechRecognition.onend = () => {
+                    setIsListening(false);
+                };
 
-            speechRecognition.onerror = (event: any) => {
-                console.error("Speech recognition error", event.error);
-                setIsListening(false);
-            };
+                speechRecognition.onresult = (event: any) => {
+                    const transcript = event.results[0][0].transcript;
+                    onTranscript(transcript);
+                };
 
-            setRecognition(speechRecognition);
+                speechRecognition.onerror = (event: any) => {
+                    console.error("Speech recognition error", event.error);
+                    setIsListening(false);
+                };
+
+                setRecognition(speechRecognition);
+            }
         }
     }, [onTranscript]);
 
     const toggleListening = () => {
         if (!recognition) {
-            alert("Tarayıcınız sesli girişi desteklemiyor.");
+            alert("Tarayıcınız sesli girişi desteklemiyor veya izin verilmedi.");
             return;
         }
 
@@ -54,8 +58,6 @@ export function VoiceInput({ onTranscript }: VoiceInputProps) {
             recognition.start();
         }
     };
-
-    if (!recognition) return null;
 
     return (
         <Button
